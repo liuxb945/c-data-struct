@@ -46,9 +46,51 @@ int Index_BF(SString S, SString T, int pos)
     if(j > T[0]) return (i - T[0]);
     else return 0;
 }
+void get_next(SString T,int next[]){
+    int i,j;
+    i=1;
+    next[1]=0;
+    j=0;
+    while (i<T[0]){
+        if(j==0||T[i]==T[j]){
+            i++;
+            j++;
+            next[i]=j;
+        }
+        else j=next[j];
+    }
+}
+
+int Index_KMP(SString S,SString T,int pos){
+    int i = pos, j = 1;
+    int next[T[0]+1];
+    get_next(T,next);
+    while(i <= S[0] && j <= T[0]){  //保证两个串都为超过自身长度
+        if(j==0||S[i] == T[j]){
+            i++;
+            j++;
+        }
+        else{
+            j = next[j];
+        }
+    }
+    if(j > T[0]) return (i - T[0]);
+    else return 0;
+}
+
+void print_nextj(char* ct,int pattern_length){
+    SString T;
+    StrAssign(T,ct);
+    int next[pattern_length+1];
+    get_next(T,next);
+    for(int i=1;i<pattern_length+1;i++){
+        printf("%d\t",next[i]);
+    }
+}
+
 int main()
 {
-    SString S;
+    /*SString S;
     char cs[]="abcde";
     StrAssign(S,cs);
     SString T;
@@ -59,9 +101,27 @@ int main()
     if(i == 0)
         printf("match fault");
     else
-        printf("match success loc = %d", i);
+        printf("match success loc = %d", i);*/
+
+    /*SString S;
+    char cs[]="abcabaabcacde";
+    StrAssign(S,cs);
+    char ct[]="abaabcac";
+    SString T;
+    StrAssign(T,ct);
+    int pattern_length=8;
+    int next[pattern_length+1];
+    get_next(T,next);
+    for(int i=1;i<pattern_length+1;i++){
+        printf("%d\t",next[i]);
+    }
+    int kmp_index=Index_KMP(S,T,1);
+    printf("match success loc = %d", kmp_index);*/
+    print_nextj("aaaab",5);
     return 0;
 }
+
+
 
 /* 字符串赋值,当赋值字符串长度超过被赋值字符串时候截断,未超过时先将长度存入T[0],再逐位赋值 */
 Status StrAssign(SString T,char *chars)
