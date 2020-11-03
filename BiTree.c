@@ -1,45 +1,56 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#define TElemType int
-int max(int x,int y);
-struct Date{
-    int month;
-    int day;
-    int year;
-};
-struct Student{
-    int num;
-    char name[20];
-    struct Date birthday;
-};
-int main() {
-    struct Student s1={101,"zhang san",{12,14,1990}};
-    printf("%d",s1.birthday.year);
-    return 0;
-
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct BiTNode
+{
+    char data;
+    struct BiTNode *lchild,*rchild;
+}BiTNode,*BiTree;
+void PreOrderTraverse(BiTree T)//二叉树的先序遍历
+{
+    if(T==NULL)
+        return ;
+    printf("%c ",T->data);
+    PreOrderTraverse(T->lchild);
+    PreOrderTraverse(T->rchild);
 }
-
-
-
-int max(int x,int y){
-    int z;
-    z=x>y?x:y;
-    return z;
+void InOrderTraverse(BiTree T)//二叉树的中序遍历
+{
+    if(T==NULL)
+        return ;
+    InOrderTraverse(T->lchild);
+    printf("%c ",T->data);
+    InOrderTraverse(T->rchild);
 }
-
-void swap(int* pa,int* pb){
-    int temp;
-    temp=*pa;
-    *pa=*pb;
-    *pb=temp;
+void PostOrderTraverse(BiTree T)//后序遍历
+{
+    if(T==NULL)
+        return;
+    PostOrderTraverse(T->lchild);
+    PostOrderTraverse(T->rchild);
+    printf("%c ",T->data);
 }
-
-void check(int *p){
-    int i;
-    printf("they are fail:");
-    for(int i=0;i<5;i++){
-        if(p[i]<60)
-            printf("%d\n",p[i]);
+void CreateBiTree(BiTree *T)
+{
+    char ch;
+    scanf("%c",&ch);
+    if(ch=='#')
+        *T=NULL;
+    else
+    {
+        *T=(BiTree  )malloc(sizeof(BiTNode));
+        if(!*T)
+            exit(-1);
+        (*T)->data=ch;
+        CreateBiTree(&(*T)->lchild);
+        CreateBiTree(&(*T)->rchild);
     }
+}
+int main()
+{
+    BiTree T;
+    CreateBiTree(&T);
+//    PreOrderTraverse (T);
+    InOrderTraverse(T);
+//    PostOrderTraverse(T);
+    return 0;
 }
