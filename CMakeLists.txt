@@ -5,4 +5,4 @@ set(CMAKE_C_STANDARD 99)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fexec-charset=GBK")
 
-add_executable(c MyLinkList.c MySqList.c)
+add_executable(c MySqList.c)
